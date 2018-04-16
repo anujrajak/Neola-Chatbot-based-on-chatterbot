@@ -1,0 +1,29 @@
+""" This program plays the music and videos from youtube """
+
+# import speech_recognition as sr
+import webbrowser
+import urllib.request
+import urllib.parse
+import re
+from tts import tts
+
+def music(msg):
+    # song name from user
+    song = urllib.parse.urlencode({"search_query" : msg})
+    print(song)
+
+    # fetch the ?v=query_string
+    result = urllib.request.urlopen("http://www.youtube.com/results?" + song)
+    # print(result)
+
+    # make the url of the first result song
+    search_results = re.findall(r'href=\"\/watch\?v=(.{11})', result.read().decode())
+    # print(search_results)
+
+    # make the final url of song selects the very first result from youtube result
+    url = "http://www.youtube.com/watch?v="+search_results[0]
+
+    # play the song using webBrowser module which opens the browser
+    webbrowser.open_new(url)
+
+# music('teri khair mangdi vidya vox')
